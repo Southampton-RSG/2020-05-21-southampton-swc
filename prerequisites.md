@@ -3,7 +3,7 @@ layout: page-md
 title: Software Prerequisites
 ---
 
-[[Home]](https://southampton-rsg.github.io/2019-12-16-southampton-swc/)
+[[Home]](https://southampton-rsg.github.io/2020-05-21-southampton-swc/)
 
 **Prior to the workshop, it is vital that you install some software on your laptop and create an account at Github by following the instructions below**
 
@@ -117,7 +117,8 @@ Enter the command below into your terminal. It will download the python script a
 From the Git folder in the Start Menu, open the Git Bash terminal.
 
 ~~~ {.code}
-curl -s https://swc.rsgsoton.net/static/installation_test_rsg.py | python
+git clone https://github.com/Southampton-RSG/2020-05-21-southampton-swc
+python 2020-05-21-southampton-swc/setup/installation_test.py
 ~~~
 
 #### Mac OS X, Linux
@@ -125,7 +126,8 @@ curl -s https://swc.rsgsoton.net/static/installation_test_rsg.py | python
 Close your existing terminal and reopen it.  **This is important!**
 
 ~~~ {.code}
-curl -s https://swc.rsgsoton.net/static/installation_test_rsg.py | python3
+git clone https://github.com/Southampton-RSG/2020-05-21-southampton-swc
+python3 2020-05-21-southampton-swc/setup/installation_test.py
 ~~~
 
 
@@ -142,7 +144,7 @@ check Matplotlib (matplotlib)...	pass
 
 If anything fails, please [contact us](mailto:rsg-info@soton.ac.uk) before the workshop.
 
-
+<!-- 
 ## During the workshop
 
-We will make use of the [Etherpad](https://public.etherpad-mozilla.org/p/SWC-Soton-Mar2019) collaboration tool during the workshop (Etherpad allows a group to edit documents online collaboratively in real-time). Please use this to keep collaborative notes and ask (and answer!) each others questions.
+We will make use of the [Etherpad](https://public.etherpad-mozilla.org/p/SWC-Soton-Mar2019) collaboration tool during the workshop (Etherpad allows a group to edit documents online collaboratively in real-time). Please use this to keep collaborative notes and ask (and answer!) each others questions. -->

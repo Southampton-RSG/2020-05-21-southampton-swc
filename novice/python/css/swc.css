@@ -174,7 +174,7 @@ body.stylesheet {
 }
 
 /* Code sample */
-pre.sourceCode,
+pre.sourceCode, .bash, .python,
 pre.input {
     color: ForestGreen;
 }

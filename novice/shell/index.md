@@ -32,7 +32,7 @@ These lessons will start you on a path towards using these resources effectively
 > 
 > ~~~ {.input}
 > $ cd
-> $ git clone https://github.com/Southampton-RSG/2019-12-16-southampton-swc
+> $ git clone https://github.com/Southampton-RSG/2020-05-21-southampton-swc
 > ~~~
 
 ## Topics

@@ -406,7 +406,7 @@ FUNCTIONS
         fahr -- the temperature in Fahrenheit
 
 FILE
-    /Users/user/Projects/RSG/Training/2019-12-16-southampton-swc/novice/python/code/temp_conversion.py
+    /Users/user/Projects/RSG/Training/2020-05-21-southampton-swc/novice/python/code/temp_conversion.py
 ~~~
 
 Here, note we've used the term `library` in the code documentation. This

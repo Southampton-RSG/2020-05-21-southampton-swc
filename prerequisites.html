@@ -26,10 +26,9 @@
       <div class="row">
         <div class="col-md-10 col-md-offset-1">
                     <h1 class="title">Software Prerequisites</h1>
-          <p><a href="https://southampton-rsg.github.io/2019-12-16-southampton-swc/">[Home]</a></p>
+          <p><a href="https://southampton-rsg.github.io/2020-05-21-southampton-swc/">[Home]</a></p>
 <p><strong>Prior to the workshop, it is vital that you install some software on your laptop and create an account at Github by following the instructions below</strong></p>
 <p>There is little time during the workshop to deal with installation problems, so it makes the day run more smoothly if you arrive with your software already installed.</p>
-
 <h2 id="bash">Bash</h2>
 <p>Among many other things, Bash allows you to automate repetitive tasks. We use it during the command line section of the course.</p>
 <h4 id="windows">Windows</h4>
@@ -38,32 +37,20 @@
 <p>The Bash shell is accessed by opening the “Terminal” application. The Terminal application can be found in the “Utilities” folder which is in your “Applications” folder.</p>
 <h4 id="linux">Linux</h4>
 <p>The Bash shell is accessed via the Terminal application.</p>
-
 <h2 id="text-editor">Text Editor</h2>
-<p>A text editor is the piece of software you use to view and write code. If you have a preferred text editor, please use it. If you don't, we recommend Microsoft Visual Studio Code.</p>
-<h4 id="windows-1">Windows</h4>
-<p>Download the <a href="https://aka.ms/win32-x64-user-stable">Visual Studio Code Windows installer</a>. Double click the installer and follow the instructions. Make sure 'Add to path' is checked.</p>
-<h4 id="mac-os-x-1">Mac OS X</h4>
-<p>Download the <a href="https://go.microsoft.com/fwlink/?LinkID=620882">Visual Studio Code Mac OS X application</a>.
-<p>If necessary, confirm that you want to Allow the download. When complete, double-click the downloaded file to open it.  If you receive a warning that it cannot be checked for malicious code, click <code>Show in Finder</code> and drag "Visual Studio Code" into your Applications folder.  From there, <strong>right-click</strong> it and choose "Open". It should work normally from then on.</p>
-<h4 id="linux-1">Linux</h4>
-<p>Visit the <a href="https://code.visualstudio.com/download">Visual Studio Code downloads page</a>, and download the correct installer for your version of Linux.</p>
-
+<p>A text editor is the piece of software you use to view and write code. If you have a preferred text editor, please use it. If you don't, we recommend Microsoft Visual Studio Code, which can be installed along with Python (below).</p>
 <h2 id="python">Python</h2>
 <p>We use Python 3, because it is generally the most widely used version of Python. The “Anaconda3” package provides everything Python-related you will need for the workshop. To install Anaconda, follow the instructions below.</p>
 <p><strong><span style="color:red">IMPORTANT</span>: When asked “Add Anaconda to my PATH environment variable”, answer “yes”. After it’s finished, close and reopen any open terminals to reload the updated PATH and allow the installed Python to be found.</strong></p>
+<p>If you want to use Microsoft Visual Studio Code (VSCode) as your text editor, install it when prompted. <strong>Note</strong> This requires administrator rights.</p>
 <h4 id="windows-1">Windows</h4>
-<p>Download the <a href="https://repo.anaconda.com/archive/Anaconda3-2019.10-Windows-x86_64.exe">Python 3.7 Anaconda Windows installer</a>. Double click the installer and follow the instructions.</p>
+<p>Download the <a href="https://repo.anaconda.com/archive/Anaconda3-2018.12-Windows-x86_64.exe">Python 3.7 Anaconda Windows installer</a>. Double click the installer and follow the instructions.</p>
 <h4 id="mac-os-x-1">Mac OS X</h4>
-<p>Download the <a href="https://repo.anaconda.com/archive/Anaconda3-2019.10-MacOSX-x86_64.pkg">Python 3.7 Anaconda Mac OS X installer</a>.
-<p>If necessary, confirm that you want to Allow the download. Double click the <code>.pkg</code> file and follow the instructions, choosing to "Install for Me Only", if prompted.</p>
-
-
+<p>Download the <a href="https://repo.anaconda.com/archive/Anaconda3-2018.12-MacOSX-x86_64.pkg">Python 3.7 Anaconda Mac OS X installer</a>. Double click the <code>.pkg</code> file and follow the instructions.</p>
 <h4 id="linux-1">Linux</h4>
-<p>Download the <a href="https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_64.sh">Python 3.7 Anaconda Linux Installer</a>. Install via the terminal like this</p>
+<p>Download the <a href="https://repo.anaconda.com/archive/Anaconda3-2018.12-Linux-x86_64.sh">Python 3.7 Anaconda Linux Installer</a>. Install via the terminal like this</p>
 <pre class="code"><code>bash Anaconda3-2018.12-Linux-x86_64.sh</code></pre>
 <p>Answer ‘yes’ to allow the installer to initialize Anaconda3 in your .bashrc</p>
-
 <h2 id="git">Git</h2>
 <p>Git is the version control software we will use. It allows you to keep track of your software and the edits made to it.</p>
 <h4 id="create-a-github-account">Create a Github account</h4>
@@ -71,15 +58,11 @@
 <p>To create an account, <a href="https://github.com/join">go to the Github website</a> and provide your details. It’s quick and it’s free. Once you have your account, you need to install the Git software as described below.</p>
 <h4 id="windows-2">Windows</h4>
 <p>Download and install <a href="http://git-scm.com/download/win">Git for Windows</a>.</p>
-<p>During the 'Choosing the default editor used by Git' step, select 'Use VS Code as the editor by default'.</p>
 <p><strong><span style="color:red">IMPORTANT</span>: During installation, at the step ‘Configuring the terminal emulator to use with Git Bash’ you must select ‘Use Windows default console window’.</strong></p>
 <h4 id="mac-os-x-2">Mac OS X</h4>
 <p>On Mac OS X 10.9 Mavericks and later, Git will be installed automatically the first time you try to run it. Open a terminal and enter:</p>
 <pre class="code"><code>git</code></pre>
 <p>There may be a short delay whilst the installer operates. You can then follow the prompts to install the Apple command line development tools.</p>
-<p>If you see an error message <code>xcrun: error: invalid active developer path</code>.  Run the following command:
-<pre class="code"><code>xcode-select --install</code></pre>
-<p>...and follow the prompts to install the command line developer tools.</p>
 <p>On Mac OS X 10.6 Snow Leoapard, Mac OS X 10.7 Lion and 10.8 Mountain Lion, download and open the <a href="http://downloads.sourceforge.net/project/git-osx-installer/git-2.3.5-intel-universal-snow-leopard.dmg?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fgit-osx-installer%2Ffiles%2F&amp;ts=1441637770&amp;use_mirror=kent">Git installer image</a>. Double click the <code>.pkg</code> file and follow the instructions.</p>
 <p>If you intend to use an earlier version of Mac OS X, please contact us before the event.</p>
 <h4 id="linux-2">Linux</h4>
@@ -89,22 +72,18 @@
 <p>Fedora:</p>
 <pre class="code"><code>su -
 dnf install git</code></pre>
-
 <h2 id="verify-your-setup">Verify your setup</h2>
 <p>To make sure that everything has installed correctly, we have written a simple Python script to test the prerequisites.</p>
 <p><strong>Close your existing terminal and reopen it (this is important!)</strong>.</p>
-<p>Enter the commands below into your terminal. It will download the workshop resources and then check your prerequisites.</p>
+<p>Enter the command below into your terminal. It will download the python script and run it to check your prerequisites.</p>
 <h4 id="windows-3">Windows</h4>
 <p>From the Git folder in the Start Menu, open the Git Bash terminal.</p>
-<pre class="code">
-  <code>git clone https://github.com/Southampton-RSG/2019-12-16-southampton-swc</code>
-  <code>python 2019-12-16-southampton-swc/setup/installation_test.py</code>
-</pre>
+<pre class="code"><code>git clone https://github.com/Southampton-RSG/2020-05-21-southampton-swc
+python 2020-05-21-southampton-swc/setup/installation_test.py</code></pre>
 <h4 id="mac-os-x-linux">Mac OS X, Linux</h4>
-<pre class="code">
-  <code>git clone https://github.com/Southampton-RSG/2019-12-16-southampton-swc</code>
-  <code>python3 2019-12-16-southampton-swc/setup/installation_test.py</code>
-</pre>
+<p>Close your existing terminal and reopen it. <strong>This is important!</strong></p>
+<pre class="code"><code>git clone https://github.com/Southampton-RSG/2020-05-21-southampton-swc
+python3 2020-05-21-southampton-swc/setup/installation_test.py</code></pre>
 <p>On Windows, Mac OS X and Linux, the script will run and output some text. If everything has installed correctly, within the text you will see all passes and no failures, like this:</p>
 <pre class="code"><code>check command line shell (virtual-shell)... pass
 check Git (git)...  pass
@@ -113,12 +92,16 @@ check Argparse (argparse)...    pass
 check NumPy (numpy)...  pass
 check Matplotlib (matplotlib)...    pass</code></pre>
 <p>If anything fails, please <a href="mailto:rsg-info@soton.ac.uk">contact us</a> before the workshop.</p>
+<!-- 
+## During the workshop
+
+We will make use of the [Etherpad](https://public.etherpad-mozilla.org/p/SWC-Soton-Mar2019) collaboration tool during the workshop (Etherpad allows a group to edit documents online collaboratively in real-time). Please use this to keep collaborative notes and ask (and answer!) each others questions. -->
         </div>
       </div>
       </article>
       <div class="footer">
         <a class="label swc-blue-bg" href="http://software-carpentry.org">Software Carpentry</a>
-        <a class="label swc-blue-bg" href="https://southampton-rsg.github.io/2019-12-16-southampton-swc">Source</a>
+        <a class="label swc-blue-bg" href="https://southampton-rsg.github.io/2020-05-21-southampton-swc">Source</a>
         <a class="label swc-blue-bg" href="mailto:s.crouch@software.ac.uk">Contact</a>
         <a class="label swc-blue-bg" href="LICENSE.html">License</a>
       </div>

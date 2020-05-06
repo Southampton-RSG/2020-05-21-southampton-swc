@@ -13,7 +13,7 @@ minutes: 10
 So, first let's **change to our code directory**.  Note that this is **not the directory that you were using in the Python** lesson, but should contain **clean versions** of the same files you were working on.  This is to ensure that everyone has the same files to start the lesson.
 
 ~~~ {.bash}
-$ cd ~/2019-12-16-southampton-swc/novice/git/code
+$ cd ~/2020-05-21-southampton-swc/novice/git/code
 $ ls
 ~~~
 

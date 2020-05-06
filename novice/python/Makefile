@@ -2,7 +2,7 @@ PANDOC ?= pandoc
 # Move smart argument to type of generation, e.g. html+smart
 # since it's changed in Matplotlib
 #PANDOC_FLAGS = --smart
-PANDOC_FLAGS =
+PANDOC_FLAGS = -f markdown-space_in_atx_header --no-highlight
 
 # R Markdown files.
 SRC_RMD = $(wildcard ??-*.Rmd)

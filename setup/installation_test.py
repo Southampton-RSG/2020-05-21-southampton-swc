@@ -79,8 +79,8 @@ CHECKS = [
     #'setuptools',
     #'xcode',
 # Testing
-    'nosetests',       # Command line tool
-    'nose',            # Python package
+    # 'nosetests',       # Command line tool
+    # 'nose',            # Python package
     #'py.test',         # Command line tool
     #'pytest',          # Python package
 # SQL

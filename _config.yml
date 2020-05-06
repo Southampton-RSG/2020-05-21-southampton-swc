@@ -1,8 +1,8 @@
 #--------------------------------------------------------------------------------
 # Values for this workshop - EDIT THIS SECTION.
 #--------------------------------------------------------------------------------
-workshop_repo   : "http://github.com/Southampton-RSG/2019-12-16-southampton-swc"
-workshop_site   : "http://Southampton-RSG.github.io/2019-12-16-southampton-swc"
+workshop_repo   : "http://github.com/Southampton-RSG/2020-05-21-southampton-swc"
+workshop_site   : "http://Southampton-RSG.github.io/2020-05-21-southampton-swc"
 #--------------------------------------------------------------------------------
 # Standard Software Carpentry settings - should not need to be modified.
 #--------------------------------------------------------------------------------

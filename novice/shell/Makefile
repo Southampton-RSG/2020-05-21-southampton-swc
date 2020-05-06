@@ -1,5 +1,5 @@
 PANDOC ?= pandoc
-PANDOC_FLAGS = --smart
+PANDOC_FLAGS = -f markdown-space_in_atx_header --no-highlight
 
 # R Markdown files.
 SRC_RMD = $(wildcard ??-*.Rmd)
