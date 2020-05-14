@@ -59,7 +59,7 @@ $ git branch inches_to_cm
 $ git checkout inches_to_cm
 ~~~
 ~~~ {.output}
-Switched to branch 'dev'
+Switched to branch 'inches_to_cm'
 ~~~
 ~~~ {.bash}
 $ nano rainfall_conversion.py
