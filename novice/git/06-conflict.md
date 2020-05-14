@@ -12,7 +12,6 @@ minutes: 15
 As soon as people can work in **parallel**,
 someone is going to step on someone else's toes.
 
-
 This will even happen with a single person:
 if we are working on a piece of software on both our laptop and a server in the lab,
 we could make different changes to each copy.
@@ -21,10 +20,10 @@ These situations are called **conflicts**
 Version control helps us manage these [conflicts](reference.html#conflicts)
 by giving us tools to [resolve](reference.html#resolve) overlapping changes.
 
-To see how we can resolve conflicts,
-we must first create one.
-The file `rainfall_conversion.py` currently looks like this
-in both partners' copies of our `climate-analysis` repository:
+To see how we can resolve conflicts, we must first create one. 
+We'll do this in the `rainfall_conversion.py` file- 
+we'll edit it in two different branches, and try to merge them together.
+The file `rainfall_conversion.py` currently looks like this in our repository:
 
 ~~~ {.bash}
 $ cat rainfall_conversion.py
@@ -42,12 +41,26 @@ def inches_to_mm(inches):
     return mm
 ~~~
 
-###Developer A - Modify and Push###
+### Feature branch - modify and push ###
 
-![Conflicts](img/slides/version-control-with-git-slides - 25.jpg)
+![Conflicts - feature branch](img/slides/conflict-feature.png)
 
-Let's add a line to the bottom of Developer A's copy only:
+Starting from the `dev` branch, let's create a new **feature branch**, 
+check it out, then add a line to our copy of `rainfall_conversion.py`:
 
+~~~ {.bash}
+$ git checkout dev
+~~~
+~~~ {.output}
+Switched to branch 'dev'
+~~~
+~~~ {.bash}
+$ git branch inches_to_cm
+$ git checkout inches_to_cm
+~~~
+~~~ {.output}
+Switched to branch 'dev'
+~~~
 ~~~ {.bash}
 $ nano rainfall_conversion.py
 $ cat rainfall_conversion.py
@@ -64,37 +77,53 @@ def inches_to_mm(inches):
     mm = inches * 25.4
     return mm
 
-# TODO(Developer B): Add function to convert from inches to centimetres
+# TODO: Add function to convert from inches to centimetres
 ~~~
 
 and then push the change to GitHub:
 
 ~~~ {.bash}
 $ git add rainfall_conversion.py
-$ git commit -m "Developer A added a ToDo"
+$ git commit -m "Added a ToDo for the new function"
 ~~~
 ~~~ {.output}
-[master 5ae9631] Developer A added a ToDo
- 1 file changed, 1 insertion(+)
+[inches_to_cm 4d57c19] Added a ToDo for the new function
+ 1 file changed, 2 insertions(+)   
 ~~~
 ~~~ {.bash}
-$ git push origin master
+$ git push -u origin inches_to_cm
 ~~~
 ~~~ {.output}
-Counting objects: 5, done.
-Delta compression using up to 8 threads.
+Counting objects: 3, done.
+Delta compression using up to 4 threads.
 Compressing objects: 100% (3/3), done.
-Writing objects: 100% (3/3), 357 bytes | 0 bytes/s, done.
+Writing objects: 100% (3/3), 359 bytes | 359.00 KiB/s, done.
 Total 3 (delta 2), reused 0 (delta 0)
-To https://github.com/js-robinson/climate-analysis.git
-   3973c44..479a5d2  master -> master
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+remote:
+remote: Create a pull request for 'inches_to_cm' on GitHub by visiting:
+remote:      https://github.com/smangham/climate-analysis/pull/new/inches_to_cm
+remote:
+To https://github.com/smangham/climate-analysis.git
+ * [new branch]      inches_to_cm -> inches_to_cm
+Branch 'inches_to_cm' set up to track remote branch 'inches_to_cm' from 'origin'.  
 ~~~
 
-###Developer B - Modify and push without pull###
+This time, we added a `-u` to `git push -u origin inches_to_cm`. This **sets the default remote branch**-
+now in future, we can just use `git push` to send our updates.
 
-Now let's have Developer B make a different change to their copy
-*without* updating (pulling) from GitHub:
+### Dev branch - modify and push ###
 
+![Conflicts - dev branch](img/slides/conflict-dev.png)
+
+Now, *before* we merge in our updated feature branch, let's make a change to the `dev` branch:
+
+~~~ {.bash}
+$ git checkout dev
+~~~
+~~~ {.output}
+Switched to branch 'dev'
+~~~
 ~~~ {.bash}
 $ nano rainfall_conversion.py
 $ cat rainfall_conversion.py
@@ -111,87 +140,108 @@ def inches_to_mm(inches):
     mm = inches * 25.4
     return mm
 
-# TODO(Developer A): Add function to convert from inches to centimetres
+# TODO: Fix to accept strings e.g. 6'
 ~~~
 
 We can commit the change locally:
 
 ~~~ {.bash}
 $ git add rainfall_conversion.py
-$ git commit -m "Developer B added a different line"
+$ git commit -m "Added a ToDo for a bug fix"
 ~~~
 ~~~ {.output}
-[master 07ebc69] Developer B added a different line
- 1 file changed, 1 insertion(+)
+[dev 35edcc1] Added a ToDo for a bug fix
+ 1 file changed, 2 insertions(+)   
 ~~~
-
-but Git won't let us push it to GitHub:
-
 ~~~ {.bash}
-$ git push origin master
+$ git push -u origin dev
 ~~~
 ~~~ {.output}
-To https://github.com/js-robinson/climate-analysis.git
- ! [rejected]        master -> master (fetch first)
-error: failed to push some refs to 'https://github.com/js-robinson/climate-analysis.git'
-hint: Updates were rejected because the remote contains work that you do
-hint: not have locally. This is usually caused by another repository pushing
-hint: to the same ref. You may want to first integrate the remote changes
-hint: (e.g., 'git pull ...') before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+Counting objects: 3, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 337 bytes | 337.00 KiB/s, done.
+Total 3 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/smangham/climate-analysis.git
+   7ef49c0..4e75bf0  dev -> dev
+Branch 'dev' set up to track remote branch 'dev' from 'origin'.   
 ~~~
 
-![Conflicts #2](img/slides/version-control-with-git-slides - 26.jpg)
+### GitHub - merging the changes ###
+
+![Conflicts - problem](img/slides/conflict.png)
+
+Now, let's try merging our work from the `inches_to_cm` branch into the `dev` branch,
+just like we did with `doc`.
+
+![Conflict Pull Request](img/conflict-merge-1.png)
 
 Git **detects** that the **changes** made in one copy **overlap** with those made in the other
-and **stops us from trampling** on our collaborators work.
+and **stops us from trampling** on the work in the `dev` branch. 
 
-What we have to do is **pull** the changes from GitHub,
-[merge](reference.html#merge) them into the copy we're currently working in,
+![Conflicts  Pull Request #2](img/conflict-merge-2.png)
+
+We can create the pull request anyway. In order to complete it though, 
+what we have to do is [merge](reference.html#merge) the changes from the `dev` branch into our feature branch,
 and **then push** that.
 
-###Developer B - Pull and resolve###
+![Conflicts  Pull Request #3](img/conflict-merge-3.png)
 
-Let's start by pulling:
+You can do this on GitHub, but we're going to do it locally.
+
+
+### Feature branch - pulling the changes ###
+
+![Conflicts - resolution](img/slides/conflict-resolution.png)
+
+So now we need to merge the changes from `dev` into our featue branch, to get it up to date.
+
+Let's check out `inches_to_cm` again:
 
 ~~~ {.bash}
-$ git pull origin master
+$ git checkout inches_to_cm
 ~~~
 ~~~ {.output}
-remote: Counting objects: 3, done.
-remote: Compressing objects: 100% (1/1), done.
-remote: Total 3 (delta 2), reused 3 (delta 2), pack-reused 0
-Unpacking objects: 100% (3/3), done.
-From https://github.com/js-robinson/climate-analysis
-   3973c44..479a5d2  master     -> origin/master
-Auto-merging rainfall_conversion.py
-CONFLICT (content): Merge conflict in rainfall_conversion.py
-Automatic merge failed; fix conflicts and then commit the result.
+Switched to branch 'inches_to_cm'
 ~~~
 
-`git pull` tells us there's a **conflict**,
-and marks that conflict in the affected file:
+We can do this by **pulling** the `dev` branch *into* the `inches_to_cm` branch:
+
+~~~ {.bash}
+$ git pull origin dev
+~~~
+~~~ {.output}
+From https://github.com/smangham/climate-analysis
+ * branch            dev        -> FETCH_HEAD
+ Auto-merging rainfall_conversion.py 
+ CONFLICT (content): Merge conflict in rainfall_conversion.py
+ Automatic merge failed; fix conflicts and then commit the result.   
+~~~
+
+Git recognises that there's a conflict! Both branches have tried to edit the same line of `rainfall_conversion.py`.
+It adds some markers to the file, so we can see where the conflict is:
 
 ~~~ {.bash}
 $ cat rainfall_conversion.py
 ~~~
 ~~~ {.output}
-"""A library to perform rainfall unit conversions"""
+""" A library to perform rainfall unit conversions """
 
 def inches_to_mm(inches):
-    """Convert inches to milimetres.
-
+    """
+    Convert inches to milimetres.
     Arguments:
-    inches -- the rainfall inches
+    inches -- the rainfal inches
     """
     mm = inches * 25.4
     return mm
 
 <<<<<<< HEAD
-# TODO(Developer A): Add function to convert from inches to centimetres
+# TODO: Add function to convert from inches to cm
 =======
-# TODO(Developer B): Add function to convert from inches to centimetres
->>>>>>> dabb4c8c450e8475aee9b14b4383acc99f42af1d
+# TODO: Fix to accept strings e.g. 6'
+>>>>>>> 4e75bf05f7b8df642d7c34dc593e8548b4331f8c  
 ~~~
 
 Our change&mdash;the one in `HEAD`&mdash;is preceded by `<<<<<<<`.
@@ -224,11 +274,10 @@ def inches_to_mm(inches):
     mm = inches * 25.4
     return mm
 
-# TODO(all): Hire a new developer
+# TODO: Fix to accept strings e.g. 6', and add function to convert inches to cm
 ~~~
-###Developer B - Add, Commit and Push###
-To finish merging,
-we add `rainfall_conversion.py` to the changes being made by the merge
+
+To finish merging, we add `rainfall_conversion.py` to the changes being made by the merge
 and then commit:
 
 ~~~ {.bash}
@@ -236,96 +285,50 @@ $ git add rainfall_conversion.py
 $ git status
 ~~~
 ~~~ {.output}
-On branch master
-Your branch and 'origin/master' have diverged,
-and have 1 and 1 different commit each, respectively.
-  (use "git pull" to merge the remote branch into yours)
-
+On branch inches_to_cm
+Your branch is up to date with 'origin/inches_to_cm'.
 All conflicts fixed but you are still merging.
-  (use "git commit" to conclude merge)
-
+   (use "git commit" to conclude merge)
 Changes to be committed:
 
-        modified:   rainfall_conversion.py
-
+   modified:   rainfall_conversion.py   
 ~~~
 ~~~ {.bash}
-$ git commit -m "Merging changes from GitHub"
+$ git commit -m "Merging in changes from dev"
 ~~~
 ~~~ {.output}
-[master 2abf2b1] Merging changes from GitHub
+[inches_to_cm 9896aa7] Merging in changes from dev 
 ~~~
 
 Now we can push our changes to GitHub:
 
 ~~~ {.bash}
-$ git push origin master
+$ git push
 ~~~
 ~~~ {.output}
-Counting objects: 10, done.
+Counting objects: 3, done.
 Delta compression using up to 4 threads.
-Compressing objects: 100% (6/6), done.
-Writing objects: 100% (6/6), 697 bytes, done.
-Total 6 (delta 2), reused 0 (delta 0)
-To https://github.com/js-robinson/climate-analysis.git
-   dabb4c8..2abf2b1  master -> master
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 370 bytes | 370.00 KiB/s, done.
+Total 3 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/smangham/climate-analysis.git
+   2eb987f..9896aa7  inches_to_cm -> inches_to_cm 
 ~~~
 
-Git keeps track of what we've merged with what,
-so we don't have to fix things by hand again
-when **Developer A** who made the first change pulls again:
+You can see that the pull request online has updated! (If it hasn't try refreshing the page)
 
-### Developer A Pull###
+![Conflict Pull Request #4](img/conflict-merge-4.png)
 
-~~~ {.bash}
-$ git pull origin master
-~~~
-~~~ {.output}
-remote: Counting objects: 10, done.        
-remote: Compressing objects: 100% (4/4), done.        
-remote: Total 6 (delta 2), reused 6 (delta 2)        
-Unpacking objects: 100% (6/6), done.
-From https://github.com/js-robinson/climate-analysis
- * branch            master     -> FETCH_HEAD
-Updating dabb4c8..2abf2b1
-Fast-forward
-rainfall_conversion.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-~~~
+Now we can automatically merge the changes from the `inches_to_cm` branch back into `dev`.
 
-we get the merged file:
+### Merge conflict solved ###
 
-~~~ {.bash}
-$ cat rainfall_conversion.py
-~~~
-~~~ {.output}
-"""A library to perform rainfall unit conversions"""
+We've solved our merge conflict! Though this was a small and simple example, the process is 
+the same even for more complicated ones with multiple conflicting lines in the same file- Git
+will bundle up nearby changes into blocks you can easily compare.
 
-def inches_to_mm(inches):
-    """Convert inches to milimetres.
-
-    Arguments:
-    inches -- the rainfall inches
-    """
-    mm = inches * 25.4
-    return mm
-
-# TODO(all): Hire a new developer
-~~~
-
-We have resolved the conflict
-
-We don't need to merge again because Git knows someone has already done that.
-
-Version control's ability to merge conflicting changes
-is another reason users tend to divide their programs and papers into multiple files
-instead of storing everything in one large file.
-There's another benefit too:
-whenever there are repeated conflicts in a particular file,
-the version control system is essentially trying to tell its users
-that they ought to clarify who's responsible for what,
-or find a way to divide the work up differently.
-
+<!-- 
 > ## Reverse {.challenge}
 > Now, Each add another line and Developer B push first.
 > Developer A resolves the conflict
@@ -335,7 +338,7 @@ or find a way to divide the work up differently.
 >
 > What does Git do
 > when there is a conflict in an image or some other non-textual file
-> that is stored in version control?
+> that is stored in version control? -->
 
 ###IF TIME###
 

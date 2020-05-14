@@ -3,13 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="generator" content="pandoc">
-    <title>Software Carpentry: Version Control with Git</title>
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <title>Version Control with Git</title>
+    <link rel="shortcut icon" type="image/x-icon" href="http://software-carpentry.org/v5/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css"  />
     <link rel="stylesheet" type="text/css" href="css/swc.css" />
-    <link rel="alternate" type="application/rss+xml" title="Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
+    <link rel="alternate" type="application/rss+xml" title="The Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
     <meta charset="UTF-8" />
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -20,7 +19,7 @@
     <div class="container card">
       <div class="banner">
         <a href="http://software-carpentry.org" title="Software Carpentry">
-          <img alt="Software Carpentry banner" src="img/software-carpentry-banner.png" />
+          <img alt="Software Carpentry banner" src="http://software-carpentry.org/img/software-carpentry-banner.png" />
         </a>
       </div>
       <article>
@@ -37,8 +36,8 @@
 <div class="panel-body">
 <ul>
 <li>Explain what remote repositories are and why they are useful.</li>
-<li>Explain what happens when a remote repository is cloned.</li>
-<li>Explain what happens when changes are pushed to or pulled from a remote repository.</li>
+<li>Explain what branches are and why they are useful.</li>
+<li>Show how work collaboratively on a remote repository using branches.</li>
 </ul>
 </div>
 </section>
@@ -59,27 +58,21 @@
 <p>In practice, though, it’s easiest to use one copy as a <strong>central hub</strong>, and to keep it on the web rather than on someone’s laptop.</p>
 <p>Many programmers use hosting services like <strong>GitHub</strong> or <strong>BitBucket</strong> to hold those master copies; we’ll explore the pros and cons of these a bit later.</p>
 <h3 id="exploring-the-collaborative-process">Exploring the collaborative process</h3>
-<p>But first let’s explore the collaborative process. Time to buddy up.</p>
+<p>But first let’s explore the collaborative process.</p>
+<p>So far we have been working in isolation. We’re going to use <strong>GitHub</strong> to set up a remote repository and start <strong>“collaborating”</strong> with others.</p>
+<h3 id="to-github">To GitHub!</h3>
 <div class="figure">
-<img src="img/slides/version-control-with-git-slides%20-%2020.jpg" alt="Collaboration" />
-<p class="caption">Collaboration</p>
+<img src="img/slides/version-control-with-git-slides-remote.jpg" alt="Remote Repositories" />
+<p class="caption">Remote Repositories</p>
 </div>
-<p>So far we have been working in splendid isolation. We’re going to use <strong>GitHub</strong> to set up a remote repository and start <strong>“collaborating”</strong> with our partners.</p>
-<p><strong>Developer A</strong> is going to take the role of the project originator. <strong>Developer B</strong> is going to take now on the role of a colleague joining the project and collaborating in development.</p>
-<p>With the help of two terminals (opened in different directories on the same computer), <strong>I’ll be taking on both roles</strong>. In your pairs, <strong>decide</strong> who will be Developer A and Developer B while I get set up.</p>
-<h3 id="developer-a---to-github">Developer A - To GitHub!</h3>
-<div class="figure">
-<img src="img/slides/version-control-with-git-slides%20-%2021.jpg" alt="Remote Repositories #1" />
-<p class="caption">Remote Repositories #1</p>
-</div>
-<p>Now, <strong>Bs just sit back</strong> for a moment and <strong>watch A</strong> until told otherwise</p>
-<p><strong>JUST A’s</strong>. Let’s start by sharing the changes we’ve made to our current project with the world. <strong>Log in to GitHub</strong>, then click on the icon in the top right corner to create a <strong>new repository</strong> called <code>climate-analysis</code>:</p>
+<p>Let’s start by sharing the changes we’ve made to our current project with the world. <strong>Log in to GitHub</strong>, then click on the button in the left-hand panel to create a <strong>new repository</strong> called <code>climate-analysis</code>:</p>
 <div class="figure">
 <img src="img/github-create-repo-01.png" alt="Creating a Repository on GitHub (Step 1)" />
 <p class="caption">Creating a Repository on GitHub (Step 1)</p>
 </div>
+<p>(You can also click on the ‘plus’ icon in the top-right and select <strong>New Repository</strong> too)</p>
 <p><strong>Name your repository</strong> “climate-analysis” You can optionally give it a friendly <strong>description</strong> and prove a <strong>README.md</strong> which is rendered on the front page of the web interface.</p>
-<p>GitHub will host <strong>Publicly</strong> accessible repositories <strong>free</strong> of charge, but makes a charge for Private ones. <strong>BitBucket</strong> offers free private repositories for teams of up to 5.</p>
+<p>GitHub will host <strong>Publicly</strong> accessible repositories <strong>free</strong> of charge, but makes a charge for Private ones. However, researchers can apply for a <a href="https://help.github.com/en/github/teaching-and-learning-with-github-education/applying-for-an-educator-or-researcher-discount">free GitHub Pro update</a> via GitHub Education, which will allow you free unlimited private repositories. <strong>BitBucket</strong> offers free private repositories for teams of up to 5.</p>
 <p>You need to be sure that you <strong>really want to make your code publicly accessible</strong>, think about <strong>licensing</strong>, and that you’re not <strong>breaching the terms of any license</strong> of shared code by making it publicly available.</p>
 <p>and then click <strong>“Create Repository”</strong>:</p>
 <div class="figure">
@@ -114,110 +107,206 @@ Total 10 (delta 2), reused 0 (delta 0)
 To https://github.com/js-robinson/climate-analysis.git
  * [new branch]      master -&gt; master</code></pre>
 <p>The push command takes two arguments, the <strong>remote name</strong> (‘origin’) and a <strong>branch name</strong> (‘master’).</p>
-<p>We haven’t yet discussed <strong>branching</strong> yet, and we won’t go into it today, but basically.</p>
-<p><strong>Branching</strong> is a feature common to almost all version control systems and gives you the ability to <strong>diverge</strong> from the main line of development and to continue to do work without messing with that main line. The main (default) branch is the <strong>master</strong>.</p>
-<p>At a later time you can <strong>re-integrate</strong> branches to the <strong>master</strong>.</p>
-<p>So, for <strong>Developer A</strong>, our local and remote repositories are now <strong>in sync</strong>! You can check in your browser that the files have reached your GitHub repository.</p>
-<h3 id="testing-pull">Testing Pull</h3>
-<p><strong>Still as Dev. A</strong> We can <strong>pull</strong> changes from the remote repository to the local one as well:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> pull origin master</code></pre></div>
-<pre class="output"><code>From https://github.com/js-robinson/climate-analysis
- * branch            master     -&gt; FETCH_HEAD
-Already up-to-date.</code></pre>
-<p>Pulling has <strong>no effect</strong> in this case because the two repositories are already <strong>synchronized</strong>. If someone else had pushed some changes to the repository on GitHub, this command would download them to our local repository.</p>
-<p><strong>Lastly</strong>, let’s <strong>add Developer B</strong> as a collaborator on our project. Return to the repos GitHub page, and click the <strong>Settings</strong> link on the <strong>right</strong>, followed by the <strong>collaborators</strong> link on the <strong>left</strong>. Add Developer B with there GitHub username.</p>
-<h3 id="developer-b---cloning-the-remote-repository">Developer B - Cloning the remote repository</h3>
+<p>We’ll get to <strong>branches</strong> in a moment!</p>
+<p>So, now, our local and remote repositories are now <strong>in sync</strong>! You can check in your browser that the files have reached your GitHub repository.</p>
+<h3 id="introducing-branches">Introducing branches</h3>
+<p>Now we’ve shared our code with the world, and other people can download a copy of it- just like you downloaded a copy of the repository these lessons are in.</p>
+<p>However, what happens if you want to keep working on it, adding new features to the code?</p>
+<p>At the moment, there’s only one version of the code available online. If keep making changes and pushing them to <strong>GitHub</strong>, then anyone who downloads from there will get all of our work in progress- whether or not it’s ready to use!</p>
+<p>Equally, we can’t wait until we’ve finished all our work before <strong>pushing</strong> it to GitHub either. We could lose weeks or months of work if our computer breaks!</p>
+<p>We can avoid this by using the <strong>branches</strong> we mentioned earlier.</p>
+<p>A <strong>branch</strong> is a <strong>different version</strong> of the files in your repository, that can contain its own set of <strong>commits</strong>. We can create a new branch, make changes to the code that we commit to the branch, and when we’re happy with those changes, merge them back to the main (‘master’) branch. Branches are commonly used as part of a <strong>feature-branch workflow</strong>:</p>
 <div class="figure">
-<img src="img/slides/version-control-with-git-slides%20-%2022.jpg" alt="Remote Repositories #2" />
-<p class="caption">Remote Repositories #2</p>
+<img src="img/git-feature-branch.svg" alt="Feature-branch workflow" />
+<p class="caption">Feature-branch workflow</p>
 </div>
-<p>Now <strong>Developer B gets a go</strong>! - <strong>Developer A</strong>, you can <strong>take a break</strong> and watch.</p>
-<p>First, we need to accept Developer A’s invitation to collaborate on GitHub. You will receive an email, but we can avoid the wait by logging into GitHub in our browsers, and visiting the invite link:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">https</span>://github.com/js-robinson/climate-analysis/invitations</code></pre></div>
-<p>Then, we need to move away from our own copies of the filse, to avoif confusion. Remember, in this example, Developer B is playing the role of a fresh collaborator on the project</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="bu">cd</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> clone https://github.com/js-robinson/climate-analysis.git</code></pre></div>
-<pre class="output"><code>Cloning into &#39;climate-analysis&#39;...
-remote: Counting objects: 10, done.
-remote: Compressing objects: 100% (8/8), done.
-remote: Total 10 (delta 2), reused 10 (delta 2), pack-reused 0
-Unpacking objects: 100% (10/10), done.
-Checking connectivity... done.</code></pre>
-<p><code>git clone</code> creates a fresh local copy of a remote repository.</p>
-<p>Let check what we’ve got:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="bu">cd</span> climate-analysis
-$ <span class="fu">ls</span></code></pre></div>
-<pre class="output"><code>climate_analysis.py  temp_conversion.py</code></pre>
-<h3 id="developer-b---add-rainfall_conversion.py">Developer B - Add rainfall_conversion.py</h3>
+<p>In this workflow, we have a main (<code>master</code>) branch which is the version of our code that’s test and reliable, and want to share- for example, the version of the code we used in a paper. When sharing code used in a paper, you can mention the specific commit that you used!</p>
+<p>Then, we have a development (<code>dev</code>) branch that we use for work-in-progress code. As we work on adding new features to the code, we commit the changes to our development branch.</p>
+<p>(We’ll talk about feature branches later!)</p>
+<h3 id="creating-branches">Creating branches</h3>
+<div class="figure">
+<img src="img/slides/branches-1.jpg" alt="Creating branches" />
+<p class="caption">Creating branches</p>
+</div>
+<p>Let’s <strong>create a development branch</strong> to work on:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> branch dev</code></pre></div>
+<p>This command doesn’t give any output, but if we run <code>git branch</code> again, without giving it a new branch name, we can see the list of branches we have- including the new one we just made.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> branch</code></pre></div>
+<pre class="output"><code>  dev
+* master</code></pre>
+<p>So how do we <strong>switch</strong> to this new branch? We use <code>git checkout</code> again, but this time with the name of the branch instead of the name of a file:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> checkout dev</code></pre></div>
+<pre class="output"><code>Switched to branch &#39;dev&#39;</code></pre>
+<aside class="callout panel panel-info">
+<div class="panel-heading">
+<h2 id="uncommitted-changes-branches"><span class="glyphicon glyphicon-pushpin"></span>Uncommitted changes &amp; branches</h2>
+</div>
+<div class="panel-body">
+<p>If we try and check out a new branch whilst we have changed but not committed** any tracked files, then we’ll get an error message! To fix this, make sure you commit your work before trying to check out a new branch. Make sure to give it a descriptive commit message for when you go back to it!</p>
+</div>
+</aside>
+<h3 id="committing-to-branches">Committing to branches</h3>
+<div class="figure">
+<img src="img/slides/branches-2.jpg" alt="Committing to branches" />
+<p class="caption">Committing to branches</p>
+</div>
+<p>Now we’ve created a <code>dev</code> branch, we can start working on it without affecting our <code>master</code> branch.</p>
 <p>Lets expand our library of climate analysis functions by adding a <strong>new file</strong>:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">nano</span> rainfall_conversion.py
-$ <span class="fu">cat</span> rainfall_conversion.py</code></pre></div>
-<pre class="output"><code>&quot;&quot;&quot;A library to perform rainfall unit conversions&quot;&quot;&quot;
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">nano</span> rainfall conversion.py
+<span class="fu">cat</span> rainfall_conversion.py</code></pre></div>
+<pre class="output"><code>&quot;&quot;&quot; A library to perform rainfall unit conversions &quot;&quot;&quot;
 
 def inches_to_mm(inches):
-    &quot;&quot;&quot;Convert inches to milimetres.
+    &quot;&quot;&quot;
+    Convert inches to milimetres.
 
     Arguments:
     inches -- the rainfall inches
     &quot;&quot;&quot;
     mm = inches * 25.4
     return mm</code></pre>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> add rainfall_conversion.py
-$ <span class="fu">git</span> commit -m <span class="st">&quot;Add rainfall module&quot;</span></code></pre></div>
-<pre class="output"><code>[master bcbf9be] Add rainfall module
- 1 file changed, 11 insertions(+)
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> add rainfall_conversion.py
+<span class="fu">git</span> commit -m <span class="st">&#39;Add rainfall module&#39;</span></code></pre></div>
+<pre class="output"><code>[dev 29f4a55] Add rainfall module
+ 1 file changed, 10 insertions(+)
  create mode 100644 rainfall_conversion.py</code></pre>
-<p>then push the change to GitHub:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> push origin master</code></pre></div>
-<pre class="output"><code>Counting objects: 4, done.
-Delta compression using up to 8 threads.
+<p>You might have noticed a change already. The commit message now reminds us we’re <strong>committing to the <code>dev</code> branch</strong>.</p>
+<p>Now, if we check the history, we can see this commit was added:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> log</code></pre></div>
+<pre class="output"><code>commit 29f4a552f33bc4f26810c86b7cf7fafd2173034d (HEAD -&gt; dev)
+Author: Sam Mangham &lt;mangham@gmail.com&gt;
+Date:   Tue Apr 28 13:42:23 2020 +0100
+  
+    Add rainfall module
+      
+commit 5a1a72a418b4b13f7f783d2feae755de7a24580c (origin/master, master)
+Author: Sam Mangham &lt;mangham@gmail.com&gt;
+Date:   Tue Apr 28 13:22:17 2020 +0100
+
+    Add rainfall processing placeholder
+    
+commit 86bca165b4a1fb7028efbd88bd143deaced3ef9a
+Author: Sam Mangham &lt;mangham@gmail.com&gt;
+Date:   Tue Apr 28 13:21:30 2020 +0100
+
+    Add Docstring
+    
+commit 736c5eaf3219ae81b126534424bfd27604d2406b
+Author: Sam Mangham &lt;mangham@gmail.com&gt;
+Date:   Tue Apr 28 13:17:43 2020 +0100
+
+    Initial commit of climate analysis code
+  </code></pre>
+<p>We can see the new commit to the <code>dev</code> branch in the <strong>log</strong>. Helpfully, the history also shows the point at which our new <code>dev</code> branch broke away from the <code>master</code> branch.</p>
+<p>Let’s switch back to the <code>master</code> branch and look at the directory again:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> checkout master</code></pre></div>
+<pre class="output"><code>Switched to branch &#39;master&#39;</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">ls</span></code></pre></div>
+<pre class="output"><code>climate_analysis.py  temp_conversion.py</code></pre>
+<p>We can see that the <code>rainfall_conversion.py</code> file we created on the <code>dev</code> branch has disappeared. However, if you check out <code>dev</code> again, it’ll reappear:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> checkout dev</code></pre></div>
+<pre class="output"><code>Switched to branch &#39;dev&#39;</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">ls</span></code></pre></div>
+<pre class="output"><code>climate_analysis.py  rainfall_conversion.py  temp_conversion.py</code></pre>
+<h3 id="pushing-updating-branches">Pushing &amp; updating branches</h3>
+<p>Now we have a commit to our <code>dev</code> branch, how do we get the changes from it into our <code>master</code> branch? There’s a couple of ways of doing this, but we’re going to do it using a <strong>pull request on GitHub</strong>.</p>
+<p>First, we’ll push the contents of the <code>dev</code> branch to GitHub the same way as we pushed the <code>master</code> branch:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> push origin dev</code></pre></div>
+<pre class="output"><code>Counting objects: 3, done.
+Delta compression using up to 4 threads.
 Compressing objects: 100% (3/3), done.
-Writing objects: 100% (3/3), 475 bytes | 0 bytes/s, done.
-Total 3 (delta 0), reused 0 (delta 0)                                                                                                 
-To https://github.com/js-robinson/climate-analysis.git                                                                                
-   dab17a9..bcbf9be  master -&gt; master</code></pre>
-<p>Note that we <strong>didn’t</strong> have to create a <strong>remote</strong> called <code>origin</code>: Git does this automatically, using that name, when we clone a repository. (This is why <code>origin</code> was a sensible choice earlier when we were setting up remotes by hand.)</p>
-<h3 id="developer-a---pull-in-the-changes">Developer A - Pull in the changes</h3>
+Writing objects: 100% (3/3), 467 bytes | 233.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+remote:
+remote: Create a pull request for &#39;dev&#39; on GitHub by visiting:
+remote:      https://github.com/smangham/climate-analysis/pull/new/dev
+remote:
+To https://github.com/smangham/climate-analysis
+ * [new branch]      dev -&gt; dev</code></pre>
+<p>Now our <code>dev</code> branch is on GitHub! Let’s go and check it out. Just above the list of files on the left-hand side is a dropdown labelled ‘branches’. Select <code>dev</code>, and you should see the list of files change:</p>
 <div class="figure">
-<img src="img/slides/version-control-with-git-slides%20-%2023.jpg" alt="Remote Repositories #3" />
-<p class="caption">Remote Repositories #3</p>
+<img src="img/github-branches.png" alt="GitHub branches" />
+<p class="caption">GitHub branches</p>
 </div>
-<p>Developer A can now update their repository with the changes made by B:</p>
-<p>[** Check Working Directory**]</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> pull origin master</code></pre></div>
-<pre class="output"><code>remote: Counting objects: 3, done.
-remote: Compressing objects: 100% (3/3), done.
-remote: Total 3 (delta 0), reused 3 (delta 0), pack-reused 0
-Unpacking objects: 100% (3/3), done.
-From https://github.com/js-robinson/climate-analysis
- * branch            master     -&gt; FETCH_HEAD
-   dab17a9..bcbf9be  master     -&gt; origin/master
-Updating dab17a9..bcbf9be
+<p>At the top of the list of files, a notification tells you that this branch has more commits in it than the <code>master</code> branch. If we want to see what the difference is, and <strong>merge the changes</strong> from <code>dev</code> to <code>master</code>, we need to make a <strong>pull request</strong>.</p>
+<div class="figure">
+<img src="img/github-branches-pull.png" alt="GitHub pull request" />
+<p class="caption">GitHub pull request</p>
+</div>
+<p>A <strong>pull request</strong> is a formal way to request to merge the changes from one branch into another, providing a message letting people know what your changes do. GitHub provides you with a range of tools to help manage pull requests.</p>
+<p>If you’re part of a team, you can suggest <strong>reviewers</strong> for your code, just as you’d recommend reviewers for a paper. Getting extra eyes on your code can help spot any bugs or mistakes early on.</p>
+<p>In addition, you can <strong>assign</strong> the pull request to someone. They’ll be notified that they’ve been assigned. This can be useful to assign complicated pull requests that can’t be automatically merged to someone else!</p>
+<p>Below this section of the <strong>pull request</strong>, you can see a list of changes this pull request would make. This is useful when reviewing code:</p>
+<div class="figure">
+<img src="img/github-branches-pull-2.png" alt="GitHub pull request #2" />
+<p class="caption">GitHub pull request #2</p>
+</div>
+<p>In this case, we can see one new file has been created.</p>
+<p>Now, let’s click <strong>Create pull request</strong>:</p>
+<div class="figure">
+<img src="img/github-branches-pull-3.png" alt="GitHub pull request #3" />
+<p class="caption">GitHub pull request #3</p>
+</div>
+<p>Fortunately, this branch can be <strong>automatically merged</strong>. Not all branches can be automatically merged. For example, if you had made more commits straight to <code>master</code>, if they edited the same lines in the same files as commits in <code>dev</code> there would be a <strong>merge conflict</strong>. We’ll cover those in a bit.</p>
+<p>Now we can click <strong>Merge pull request</strong>, and then add a commit message and click <strong>Confirm merge</strong> to update <code>master</code>!</p>
+<div class="figure">
+<img src="img/github-branches-pull-4.png" alt="GitHub pull request #4" />
+<p class="caption">GitHub pull request #4</p>
+</div>
+<p>Now we’ve updated the ‘master’ branch on GitHub with our new work from the <code>dev</code> branch! All we need to do is to update our <strong>local version</strong>. Let’s go back to our command line and check out the master branch, then <strong>pull our changes</strong> from GitHub to our computer:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> checkout master</code></pre></div>
+<pre class="output"><code>Switched to branch &#39;master&#39;</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> pull origin master</code></pre></div>
+<pre class="output"><code>remote: Enumerating objects: 1, done.
+  remote: Counting objects: 100% (1/1), done. 
+remote: Total 1 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (1/1), done.
+From https://github.com/smangham/climate-analysis
+* branch            master     -&gt; FETCH_HEAD
+  5a1a72a..32fa979  master     -&gt; origin/master
+Updating 5a1a72a..32fa979
 Fast-forward
- rainfall_conversion.py | 11 +++++++++++
- 1 file changed, 11 insertions(+)
- create mode 100644 rainfall_conversion.py</code></pre>
-<p><strong>Hey look: We’re collaborating!</strong></p>
+  rainfall_conversion.py | 10 ++++++++++
+  1 file changed, 10 insertions(+)
+  create mode 100644 rainfall_conversion.py</code></pre>
+<p>Now we’ve merged the changes from our <code>dev</code> branch into our local <code>master</code> branch!</p>
+<div class="figure">
+<img src="img/slides/version-control-with-git-slides%20-%2028.jpg" alt="Git workflow - Remote Repo" />
+<p class="caption">Git workflow - Remote Repo</p>
+</div>
+<h3 id="feature-branch-workflows">Feature-branch workflows</h3>
+<p>Now we know how to keep a seperate working copy of our code, and use it to update the version we want other people to use. But what if, whilst we’re working on adding a new feature in our development branch, someone finds a bug in our code? We don’t want to have to complete the new feature in <code>dev</code> before we can start fixing the bug!</p>
+<p>Plus, what if <strong>multiple people</strong> want to work on the code at once, each working on a new feature? If they’re all using <code>dev</code>, there’ll be plenty of <strong>merge conflicts</strong>. Plus, it makes testing the effect of the new features much harder- we only want to change one thing at a time!</p>
+<p>This is where the <strong>feature-branch workflow</strong> we mentioned comes in! Remember the figure from earlier?</p>
+<div class="figure">
+<img src="img/git-feature-branch.svg" alt="Feature-branch workflow (again) - Remote Repo" />
+<p class="caption">Feature-branch workflow (again) - Remote Repo</p>
+</div>
+<p>There’s a ‘master’ branch, a ‘development’ branch, but also several <strong>feature branches</strong>.</p>
+<p>When you want to make some changes to the code, like adding new features (or even fixing a complicated bug), you <strong>create a new feature branch</strong>. Then, you can work on your <strong>feature branch</strong> without worrying about conflicts or confusing others with work-in-progress files.</p>
+<p>Once you’ve finished and tested your new work, then you can submit a <strong>pull request</strong> from your <strong>feature branch</strong> back to the <strong><code>dev</code> branch</strong>.</p>
+<p>In some collaborations, only some people have permission to <strong>merge pull requests</strong> to the <code>dev</code> and <code>master</code> branches. This makes sure that nothing gets into the shared versions of the code without it being properly reviewed and tested by others!</p>
 <section class="challenge panel panel-success">
 <div class="panel-heading">
 <h2 id="exercise-two-way-collaboration"><span class="glyphicon glyphicon-pencil"></span>Exercise: Two way collaboration</h2>
 </div>
 <div class="panel-body">
-<p>Now lets work it the other way. Developer A can add a brief README.md stating the authors of the package we’re developing (You), and describing its purpose “Tools to parse and convert climate data from CSV” Add / commit them to their local repository and push them to github. Developer B can pull the updates</p>
+<p>Now let’s put the feature-branch workflow into practise! The code needs some documentation so people know what it does. Try creating a new branch coming off <code>dev</code> called <code>doc</code>, then add a new file called <code>README.md</code> containing the text “Tools to parse and convert climate data from CSV”. Once you’ve done that, add and commit the file to your local repository, then push your changes up to GitHub. Then once they’re on GitHub, create a pull request, merge your new feature branch back into your development branch, and pull the changes to <code>dev</code> back to your local repository.</p>
 </div>
 </section>
-<p><img src="img/slides/version-control-with-git-slides%20-%2024.jpg" alt="Remote Repositories #4" /> <a href="06-conflict.html">Next - Conflicts</a></p>
+<p><img src="img/slides/version-control-with-git-slides-branch-exercise.jpg" alt="GitHub branches exercise" /> <a href="06-conflict.html">Next - Conflicts</a></p>
         </div>
       </div>
       </article>
       <div class="footer">
-        This work is derived from prior works that are Copyright © <a href="http://software-carpentry.org">Software Carpentry</a>
+        <a class="label swc-blue-bg" href="http://software-carpentry.org">Software Carpentry</a>
+        <a class="label swc-blue-bg" href="https://southampton-rsg.github.io/2020-05-21-southampton-swc">Source</a>
+        <a class="label swc-blue-bg" href="mailto:s.crouch@software.ac.uk">Contact</a>
         <a class="label swc-blue-bg" href="LICENSE.html">License</a>
-        <a class="label swc-blue-bg" href="https://github.com/Southampton-RSG/2020-05-21-southampton-swc">Source</a>
       </div>
     </div>
-    <!-- Javascript placed at the end of the document so the pages load faster -->
-    <script src="http://software-carpentry.org/v5/js/jquery-1.9.1.min.js"></script>
-    <script src="css/bootstrap/bootstrap-js/bootstrap.js"></script>
+    <!-- Javascript placed at the end of the document so the pages load faster. -->
+    <script src="{{page.root}}/js/jquery-1.9.1.min.js"></script>
+    <script src="{{page.root}}/css/bootstrap/bootstrap-js/bootstrap.js"></script>
   </body>
 </html>

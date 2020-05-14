@@ -3,13 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="generator" content="pandoc">
-    <title>Software Carpentry: Version Control with Git</title>
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <title>Version Control with Git</title>
+    <link rel="shortcut icon" type="image/x-icon" href="http://software-carpentry.org/v5/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css"  />
     <link rel="stylesheet" type="text/css" href="css/swc.css" />
-    <link rel="alternate" type="application/rss+xml" title="Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
+    <link rel="alternate" type="application/rss+xml" title="The Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
     <meta charset="UTF-8" />
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -20,7 +19,7 @@
     <div class="container card">
       <div class="banner">
         <a href="http://software-carpentry.org" title="Software Carpentry">
-          <img alt="Software Carpentry banner" src="img/software-carpentry-banner.png" />
+          <img alt="Software Carpentry banner" src="http://software-carpentry.org/img/software-carpentry-banner.png" />
         </a>
       </div>
       <article>
@@ -44,7 +43,7 @@
 <p>As soon as people can work in <strong>parallel</strong>, someone is going to step on someone else’s toes.</p>
 <p>This will even happen with a single person: if we are working on a piece of software on both our laptop and a server in the lab, we could make different changes to each copy.</p>
 <p>These situations are called <strong>conflicts</strong> Version control helps us manage these <a href="reference.html#conflicts">conflicts</a> by giving us tools to <a href="reference.html#resolve">resolve</a> overlapping changes.</p>
-<p>To see how we can resolve conflicts, we must first create one. The file <code>rainfall_conversion.py</code> currently looks like this in both partners’ copies of our <code>climate-analysis</code> repository:</p>
+<p>To see how we can resolve conflicts, we must first create one. We’ll do this in the <code>rainfall_conversion.py</code> file- we’ll edit it in two different branches, and try to merge them together. The file <code>rainfall_conversion.py</code> currently looks like this in our repository:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">cat</span> rainfall_conversion.py</code></pre></div>
 <pre class="output"><code>&quot;&quot;&quot;A library to perform rainfall unit conversions&quot;&quot;&quot;
 
@@ -56,12 +55,17 @@ def inches_to_mm(inches):
     &quot;&quot;&quot;
     mm = inches * 25.4
     return mm</code></pre>
-<h3 id="developer-a---modify-and-push">Developer A - Modify and Push</h3>
+<h3 id="feature-branch---modify-and-push">Feature branch - modify and push</h3>
 <div class="figure">
-<img src="img/slides/version-control-with-git-slides%20-%2025.jpg" alt="Conflicts" />
-<p class="caption">Conflicts</p>
+<img src="img/slides/conflict-feature.png" alt="Conflicts - feature branch" />
+<p class="caption">Conflicts - feature branch</p>
 </div>
-<p>Let’s add a line to the bottom of Developer A’s copy only:</p>
+<p>Starting from the <code>dev</code> branch, let’s create a new <strong>feature branch</strong>, check it out, then add a line to our copy of <code>rainfall_conversion.py</code>:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> checkout dev</code></pre></div>
+<pre class="output"><code>Switched to branch &#39;dev&#39;</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> branch inches_to_cm
+$ <span class="fu">git</span> checkout inches_to_cm</code></pre></div>
+<pre class="output"><code>Switched to branch &#39;dev&#39;</code></pre>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">nano</span> rainfall_conversion.py
 $ <span class="fu">cat</span> rainfall_conversion.py</code></pre></div>
 <pre class="output"><code>&quot;&quot;&quot;A library to perform rainfall unit conversions&quot;&quot;&quot;
@@ -75,22 +79,35 @@ def inches_to_mm(inches):
     mm = inches * 25.4
     return mm
 
-# TODO(Developer B): Add function to convert from inches to centimetres</code></pre>
+# TODO: Add function to convert from inches to centimetres</code></pre>
 <p>and then push the change to GitHub:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> add rainfall_conversion.py
-$ <span class="fu">git</span> commit -m <span class="st">&quot;Developer A added a ToDo&quot;</span></code></pre></div>
-<pre class="output"><code>[master 5ae9631] Developer A added a ToDo
- 1 file changed, 1 insertion(+)</code></pre>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> push origin master</code></pre></div>
-<pre class="output"><code>Counting objects: 5, done.
-Delta compression using up to 8 threads.
+$ <span class="fu">git</span> commit -m <span class="st">&quot;Added a ToDo for the new function&quot;</span></code></pre></div>
+<pre class="output"><code>[inches_to_cm 4d57c19] Added a ToDo for the new function
+ 1 file changed, 2 insertions(+)   </code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> push -u origin inches_to_cm</code></pre></div>
+<pre class="output"><code>Counting objects: 3, done.
+Delta compression using up to 4 threads.
 Compressing objects: 100% (3/3), done.
-Writing objects: 100% (3/3), 357 bytes | 0 bytes/s, done.
+Writing objects: 100% (3/3), 359 bytes | 359.00 KiB/s, done.
 Total 3 (delta 2), reused 0 (delta 0)
-To https://github.com/js-robinson/climate-analysis.git
-   3973c44..479a5d2  master -&gt; master</code></pre>
-<h3 id="developer-b---modify-and-push-without-pull">Developer B - Modify and push without pull</h3>
-<p>Now let’s have Developer B make a different change to their copy <em>without</em> updating (pulling) from GitHub:</p>
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+remote:
+remote: Create a pull request for &#39;inches_to_cm&#39; on GitHub by visiting:
+remote:      https://github.com/smangham/climate-analysis/pull/new/inches_to_cm
+remote:
+To https://github.com/smangham/climate-analysis.git
+ * [new branch]      inches_to_cm -&gt; inches_to_cm
+Branch &#39;inches_to_cm&#39; set up to track remote branch &#39;inches_to_cm&#39; from &#39;origin&#39;.  </code></pre>
+<p>This time, we added a <code>-u</code> to <code>git push -u origin inches_to_cm</code>. This <strong>sets the default remote branch</strong>- now in future, we can just use <code>git push</code> to send our updates.</p>
+<h3 id="dev-branch---modify-and-push">Dev branch - modify and push</h3>
+<div class="figure">
+<img src="img/slides/conflict-dev.png" alt="Conflicts - dev branch" />
+<p class="caption">Conflicts - dev branch</p>
+</div>
+<p>Now, <em>before</em> we merge in our updated feature branch, let’s make a change to the <code>dev</code> branch:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> checkout dev</code></pre></div>
+<pre class="output"><code>Switched to branch &#39;dev&#39;</code></pre>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">nano</span> rainfall_conversion.py
 $ <span class="fu">cat</span> rainfall_conversion.py</code></pre></div>
 <pre class="output"><code>&quot;&quot;&quot;A library to perform rainfall unit conversions&quot;&quot;&quot;
@@ -104,58 +121,77 @@ def inches_to_mm(inches):
     mm = inches * 25.4
     return mm
 
-# TODO(Developer A): Add function to convert from inches to centimetres</code></pre>
+# TODO: Fix to accept strings e.g. 6&#39;</code></pre>
 <p>We can commit the change locally:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> add rainfall_conversion.py
-$ <span class="fu">git</span> commit -m <span class="st">&quot;Developer B added a different line&quot;</span></code></pre></div>
-<pre class="output"><code>[master 07ebc69] Developer B added a different line
- 1 file changed, 1 insertion(+)</code></pre>
-<p>but Git won’t let us push it to GitHub:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> push origin master</code></pre></div>
-<pre class="output"><code>To https://github.com/js-robinson/climate-analysis.git
- ! [rejected]        master -&gt; master (fetch first)
-error: failed to push some refs to &#39;https://github.com/js-robinson/climate-analysis.git&#39;
-hint: Updates were rejected because the remote contains work that you do
-hint: not have locally. This is usually caused by another repository pushing
-hint: to the same ref. You may want to first integrate the remote changes
-hint: (e.g., &#39;git pull ...&#39;) before pushing again.
-hint: See the &#39;Note about fast-forwards&#39; in &#39;git push --help&#39; for details.</code></pre>
+$ <span class="fu">git</span> commit -m <span class="st">&quot;Added a ToDo for a bug fix&quot;</span></code></pre></div>
+<pre class="output"><code>[dev 35edcc1] Added a ToDo for a bug fix
+ 1 file changed, 2 insertions(+)   </code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> push -u origin dev</code></pre></div>
+<pre class="output"><code>Counting objects: 3, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 337 bytes | 337.00 KiB/s, done.
+Total 3 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/smangham/climate-analysis.git
+   7ef49c0..4e75bf0  dev -&gt; dev
+Branch &#39;dev&#39; set up to track remote branch &#39;dev&#39; from &#39;origin&#39;.   </code></pre>
+<h3 id="github---merging-the-changes">GitHub - merging the changes</h3>
 <div class="figure">
-<img src="img/slides/version-control-with-git-slides%20-%2026.jpg" alt="Conflicts #2" />
-<p class="caption">Conflicts #2</p>
+<img src="img/slides/conflict.png" alt="Conflicts - problem" />
+<p class="caption">Conflicts - problem</p>
 </div>
-<p>Git <strong>detects</strong> that the <strong>changes</strong> made in one copy <strong>overlap</strong> with those made in the other and <strong>stops us from trampling</strong> on our collaborators work.</p>
-<p>What we have to do is <strong>pull</strong> the changes from GitHub, <a href="reference.html#merge">merge</a> them into the copy we’re currently working in, and <strong>then push</strong> that.</p>
-<h3 id="developer-b---pull-and-resolve">Developer B - Pull and resolve</h3>
-<p>Let’s start by pulling:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> pull origin master</code></pre></div>
-<pre class="output"><code>remote: Counting objects: 3, done.
-remote: Compressing objects: 100% (1/1), done.
-remote: Total 3 (delta 2), reused 3 (delta 2), pack-reused 0
-Unpacking objects: 100% (3/3), done.
-From https://github.com/js-robinson/climate-analysis
-   3973c44..479a5d2  master     -&gt; origin/master
-Auto-merging rainfall_conversion.py
-CONFLICT (content): Merge conflict in rainfall_conversion.py
-Automatic merge failed; fix conflicts and then commit the result.</code></pre>
-<p><code>git pull</code> tells us there’s a <strong>conflict</strong>, and marks that conflict in the affected file:</p>
+<p>Now, let’s try merging our work from the <code>inches_to_cm</code> branch into the <code>dev</code> branch, just like we did with <code>doc</code>.</p>
+<div class="figure">
+<img src="img/conflict-merge-1.png" alt="Conflict Pull Request" />
+<p class="caption">Conflict Pull Request</p>
+</div>
+<p>Git <strong>detects</strong> that the <strong>changes</strong> made in one copy <strong>overlap</strong> with those made in the other and <strong>stops us from trampling</strong> on the work in the <code>dev</code> branch.</p>
+<div class="figure">
+<img src="img/conflict-merge-2.png" alt="Conflicts Pull Request #2" />
+<p class="caption">Conflicts Pull Request #2</p>
+</div>
+<p>We can create the pull request anyway. In order to complete it though, what we have to do is <a href="reference.html#merge">merge</a> the changes from the <code>dev</code> branch into our feature branch, and <strong>then push</strong> that.</p>
+<div class="figure">
+<img src="img/conflict-merge-3.png" alt="Conflicts Pull Request #3" />
+<p class="caption">Conflicts Pull Request #3</p>
+</div>
+<p>You can do this on GitHub, but we’re going to do it locally.</p>
+<h3 id="feature-branch---pulling-the-changes">Feature branch - pulling the changes</h3>
+<div class="figure">
+<img src="img/slides/conflict-resolution.png" alt="Conflicts - resolution" />
+<p class="caption">Conflicts - resolution</p>
+</div>
+<p>So now we need to merge the changes from <code>dev</code> into our featue branch, to get it up to date.</p>
+<p>Let’s check out <code>inches_to_cm</code> again:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> checkout inches_to_cm</code></pre></div>
+<pre class="output"><code>Switched to branch &#39;inches_to_cm&#39;</code></pre>
+<p>We can do this by <strong>pulling</strong> the <code>dev</code> branch <em>into</em> the <code>inches_to_cm</code> branch:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> pull origin dev</code></pre></div>
+<pre class="output"><code>From https://github.com/smangham/climate-analysis
+ * branch            dev        -&gt; FETCH_HEAD
+ Auto-merging rainfall_conversion.py 
+ CONFLICT (content): Merge conflict in rainfall_conversion.py
+ Automatic merge failed; fix conflicts and then commit the result.   </code></pre>
+<p>Git recognises that there’s a conflict! Both branches have tried to edit the same line of <code>rainfall_conversion.py</code>. It adds some markers to the file, so we can see where the conflict is:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">cat</span> rainfall_conversion.py</code></pre></div>
-<pre class="output"><code>&quot;&quot;&quot;A library to perform rainfall unit conversions&quot;&quot;&quot;
+<pre class="output"><code>&quot;&quot;&quot; A library to perform rainfall unit conversions &quot;&quot;&quot;
 
 def inches_to_mm(inches):
-    &quot;&quot;&quot;Convert inches to milimetres.
-
+    &quot;&quot;&quot;
+    Convert inches to milimetres.
     Arguments:
-    inches -- the rainfall inches
+    inches -- the rainfal inches
     &quot;&quot;&quot;
     mm = inches * 25.4
     return mm
 
 &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-# TODO(Developer A): Add function to convert from inches to centimetres
+# TODO: Add function to convert from inches to cm
 =======
-# TODO(Developer B): Add function to convert from inches to centimetres
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; dabb4c8c450e8475aee9b14b4383acc99f42af1d</code></pre>
+# TODO: Fix to accept strings e.g. 6&#39;
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; 4e75bf05f7b8df642d7c34dc593e8548b4331f8c  </code></pre>
 <p>Our change—the one in <code>HEAD</code>—is preceded by <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>. Git has then inserted <code>=======</code> as a separator between the conflicting changes and marked the end of the content downloaded from GitHub with <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>. (The string of letters and digits after that marker identifies the revision we’ve just downloaded.)</p>
 <p>It is now <strong>up to us</strong> to <strong>edit</strong> this file to <strong>remove these markers</strong> and <strong>reconcile the changes</strong>.</p>
 <p>We can do anything we want: <strong>keep the change made in the local repository</strong>, <strong>keep the change made in the remote repository</strong>, write something new to <strong>replace both</strong>, or <strong>get rid of the change</strong> entirely.</p>
@@ -172,93 +208,62 @@ def inches_to_mm(inches):
     mm = inches * 25.4
     return mm
 
-# TODO(all): Hire a new developer</code></pre>
-<h3 id="developer-b---add-commit-and-push">Developer B - Add, Commit and Push</h3>
+# TODO: Fix to accept strings e.g. 6&#39;, and add function to convert inches to cm</code></pre>
 <p>To finish merging, we add <code>rainfall_conversion.py</code> to the changes being made by the merge and then commit:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> add rainfall_conversion.py
 $ <span class="fu">git</span> status</code></pre></div>
-<pre class="output"><code>On branch master
-Your branch and &#39;origin/master&#39; have diverged,
-and have 1 and 1 different commit each, respectively.
-  (use &quot;git pull&quot; to merge the remote branch into yours)
-
+<pre class="output"><code>On branch inches_to_cm
+Your branch is up to date with &#39;origin/inches_to_cm&#39;.
 All conflicts fixed but you are still merging.
-  (use &quot;git commit&quot; to conclude merge)
-
+   (use &quot;git commit&quot; to conclude merge)
 Changes to be committed:
 
-        modified:   rainfall_conversion.py
-</code></pre>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> commit -m <span class="st">&quot;Merging changes from GitHub&quot;</span></code></pre></div>
-<pre class="output"><code>[master 2abf2b1] Merging changes from GitHub</code></pre>
+   modified:   rainfall_conversion.py   </code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> commit -m <span class="st">&quot;Merging in changes from dev&quot;</span></code></pre></div>
+<pre class="output"><code>[inches_to_cm 9896aa7] Merging in changes from dev </code></pre>
 <p>Now we can push our changes to GitHub:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> push origin master</code></pre></div>
-<pre class="output"><code>Counting objects: 10, done.
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> push</code></pre></div>
+<pre class="output"><code>Counting objects: 3, done.
 Delta compression using up to 4 threads.
-Compressing objects: 100% (6/6), done.
-Writing objects: 100% (6/6), 697 bytes, done.
-Total 6 (delta 2), reused 0 (delta 0)
-To https://github.com/js-robinson/climate-analysis.git
-   dabb4c8..2abf2b1  master -&gt; master</code></pre>
-<p>Git keeps track of what we’ve merged with what, so we don’t have to fix things by hand again when <strong>Developer A</strong> who made the first change pulls again:</p>
-<h3 id="developer-a-pull">Developer A Pull</h3>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">git</span> pull origin master</code></pre></div>
-<pre class="output"><code>remote: Counting objects: 10, done.        
-remote: Compressing objects: 100% (4/4), done.        
-remote: Total 6 (delta 2), reused 6 (delta 2)        
-Unpacking objects: 100% (6/6), done.
-From https://github.com/js-robinson/climate-analysis
- * branch            master     -&gt; FETCH_HEAD
-Updating dabb4c8..2abf2b1
-Fast-forward
-rainfall_conversion.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)</code></pre>
-<p>we get the merged file:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">cat</span> rainfall_conversion.py</code></pre></div>
-<pre class="output"><code>&quot;&quot;&quot;A library to perform rainfall unit conversions&quot;&quot;&quot;
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 370 bytes | 370.00 KiB/s, done.
+Total 3 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/smangham/climate-analysis.git
+   2eb987f..9896aa7  inches_to_cm -&gt; inches_to_cm </code></pre>
+<p>You can see that the pull request online has updated! (If it hasn’t try refreshing the page)</p>
+<div class="figure">
+<img src="img/conflict-merge-4.png" alt="Conflict Pull Request #4" />
+<p class="caption">Conflict Pull Request #4</p>
+</div>
+<p>Now we can automatically merge the changes from the <code>inches_to_cm</code> branch back into <code>dev</code>.</p>
+<h3 id="merge-conflict-solved">Merge conflict solved</h3>
+<p>We’ve solved our merge conflict! Though this was a small and simple example, the process is the same even for more complicated ones with multiple conflicting lines in the same file- Git will bundle up nearby changes into blocks you can easily compare.</p>
+<!-- 
+> ## Reverse {.challenge}
+> Now, Each add another line and Developer B push first.
+> Developer A resolves the conflict
+> Get yourselves back in sync
 
-def inches_to_mm(inches):
-    &quot;&quot;&quot;Convert inches to milimetres.
-
-    Arguments:
-    inches -- the rainfall inches
-    &quot;&quot;&quot;
-    mm = inches * 25.4
-    return mm
-
-# TODO(all): Hire a new developer</code></pre>
-<p>We have resolved the conflict</p>
-<p>We don’t need to merge again because Git knows someone has already done that.</p>
-<p>Version control’s ability to merge conflicting changes is another reason users tend to divide their programs and papers into multiple files instead of storing everything in one large file. There’s another benefit too: whenever there are repeated conflicts in a particular file, the version control system is essentially trying to tell its users that they ought to clarify who’s responsible for what, or find a way to divide the work up differently.</p>
-<section class="challenge panel panel-success">
-<div class="panel-heading">
-<h2 id="reverse"><span class="glyphicon glyphicon-pencil"></span>Reverse</h2>
-</div>
-<div class="panel-body">
-<p>Now, Each add another line and Developer B push first. Developer A resolves the conflict Get yourselves back in sync</p>
-</div>
-</section>
-<section class="challenge panel panel-success">
-<div class="panel-heading">
-<h2 id="conflicts-on-non-textual-files"><span class="glyphicon glyphicon-pencil"></span>Conflicts on Non-textual files</h2>
-</div>
-<div class="panel-body">
-<p>What does Git do when there is a conflict in an image or some other non-textual file that is stored in version control?</p>
-</div>
-</section>
+> ## Conflicts on Non-textual files {.challenge}
+>
+> What does Git do
+> when there is a conflict in an image or some other non-textual file
+> that is stored in version control? -->
 <h3 id="if-time">IF TIME</h3>
 <p><a href="07-ignore.html">Ignoring Things</a></p>
         </div>
       </div>
       </article>
       <div class="footer">
-        This work is derived from prior works that are Copyright © <a href="http://software-carpentry.org">Software Carpentry</a>
+        <a class="label swc-blue-bg" href="http://software-carpentry.org">Software Carpentry</a>
+        <a class="label swc-blue-bg" href="https://southampton-rsg.github.io/2020-05-21-southampton-swc">Source</a>
+        <a class="label swc-blue-bg" href="mailto:s.crouch@software.ac.uk">Contact</a>
         <a class="label swc-blue-bg" href="LICENSE.html">License</a>
-        <a class="label swc-blue-bg" href="https://github.com/Southampton-RSG/2020-05-21-southampton-swc">Source</a>
       </div>
     </div>
-    <!-- Javascript placed at the end of the document so the pages load faster -->
-    <script src="http://software-carpentry.org/v5/js/jquery-1.9.1.min.js"></script>
-    <script src="css/bootstrap/bootstrap-js/bootstrap.js"></script>
+    <!-- Javascript placed at the end of the document so the pages load faster. -->
+    <script src="{{page.root}}/js/jquery-1.9.1.min.js"></script>
+    <script src="{{page.root}}/css/bootstrap/bootstrap-js/bootstrap.js"></script>
   </body>
 </html>
