@@ -109,7 +109,7 @@ To https://github.com/smangham/climate-analysis.git
 Branch 'inches_to_cm' set up to track remote branch 'inches_to_cm' from 'origin'.  
 ~~~
 
-This time, we added a `-u` to `git push -u origin inches_to_cm`. This **sets the default remote branch**-
+As before, we added a `-u` to `git push -u origin inches_to_cm` to **set the default remote branch**-
 now in future, we can just use `git push` to send our updates.
 
 ### Dev branch - modify and push ###

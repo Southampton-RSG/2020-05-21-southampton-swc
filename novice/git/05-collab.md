@@ -54,11 +54,7 @@ Let’s start by sharing the changes we’ve made to our current project with th
 **Name your repository** "climate-analysis" 
 You can optionally give it a friendly **description** and prove a **README.md** which is rendered on the front page of the web interface.
 
-GitHub will host **Publicly** accessible repositories **free** of charge, but makes a charge for Private ones. 
-However, researchers can apply for a [free GitHub Pro update](https://help.github.com/en/github/teaching-and-learning-with-github-education/applying-for-an-educator-or-researcher-discount) via GitHub Education, which will allow you free unlimited private repositories.
-**BitBucket** offers free private repositories for teams of up to 5.  
-
-You need to be sure that you **really want to make your code publicly accessible**, think about **licensing**, and that you're not **breaching the terms of any license** of shared code by making it publicly available.
+GitHub will host **Public** and **Private** repositories. **Public repositories** can be seen by anyone, though you can limit who can push to them- whilst **private repositories** are completely hidden, and only assigned collaborators can view them. You need to be sure that you **really want to make your code publicly accessible**, think about **licensing**, and that you're not **breaching the terms of any license** of shared code by making it publicly available. For now, **don't select a license**, 
 
 and then click **"Create Repository"**:
 
@@ -142,14 +138,15 @@ We can avoid this by using the **branches** we mentioned earlier.
 A **branch** is a **different version** of the files in your repository, that can contain its own set of **commits**. We can create a new branch, make changes to the code that we commit to the branch, and when we're happy with those changes, merge them back to the main (‘master’) branch. Branches are commonly used as part of a **feature-branch workflow**: 
 
 ![Feature-branch workflow](img/git-feature-branch.svg)
+[Source: Altassian BitBucket](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
 
-In this workflow, we have a main (`master`) branch which is the version of our code that's test and reliable, and want to share- for example, the version of the code we used in a paper. 
+We'll start with the **develop** workflow though. In this, we have a main (`master`) branch which is the version of our code that's test and reliable, and want to share- for example, the version of the code we used in a paper. 
 When sharing code used in a paper, you can mention the specific commit that you used!
 
 Then, we have a development (`dev`) branch that we use for work-in-progress code.
 As we work on adding new features to the code, we commit the changes to our development branch.
 
-(We'll talk about feature branches later!)
+(We'll talk about feature-branch later!)
 
 ### Creating branches ###
 
@@ -182,7 +179,7 @@ Switched to branch 'dev'
 
 > ## Uncommitted changes & branches {.callout}
 >
-> If we try and check out a new branch whilst we have changed but not committed** any tracked files, then we'll get an error message!
+> If we try and check out a new branch whilst we have **changed but not committed** any tracked files, then we'll get an error message!
 > To fix this, make sure you commit your work before trying to check out a new branch. Make sure to give it a descriptive commit message for when you go back to it!
 
 ### Committing to branches ###
@@ -290,12 +287,14 @@ climate_analysis.py  rainfall_conversion.py  temp_conversion.py
 
 ### Pushing & updating branches ###
 
+![Pushing a development branch](img/slides/collab-dev-2.png)
+
 Now we have a commit to our `dev` branch, how do we get the changes from it into our `master` branch? There's a couple of ways of doing this, but we're going to do it using a **pull request on GitHub**.
 
 First, we'll push the contents of the `dev` branch to GitHub the same way as we pushed the `master` branch:
 
 ~~~ {.bash}
-git push origin dev
+git push -u origin dev
 ~~~
 ~~~ {.output}
 Counting objects: 3, done.
@@ -309,7 +308,13 @@ remote:      https://github.com/smangham/climate-analysis/pull/new/dev
 remote:
 To https://github.com/smangham/climate-analysis
  * [new branch]      dev -> dev
+Branch 'dev' set up to track remote branch 'dev' from 'origin'.  
 ~~~
+
+We've added the `-u` flag to our `git push` this time. `-u` **sets a default remote branch for the current local branch**. 
+Now, when we're on our **local dev branch**, `git push` will do `git push origin dev` (and `git pull` will use `origin dev` too).
+This is helpful as it can prevent you accidentally pushing your local changes to the wrong branch! 
+This **only applies to your current branch**, so each local branch can (and **should**) push to a different remote branch.
 
 Now our `dev` branch is on GitHub! Let's go and check it out. 
 Just above the list of files on the left-hand side is a dropdown labelled 'branches'. Select `dev`, and you should see the list of files change:
@@ -386,6 +391,7 @@ If they're all using `dev`, there'll be plenty of **merge conflicts**. Plus, it 
 This is where the **feature-branch workflow** we mentioned comes in! Remember the figure from earlier?
 
 ![Feature-branch workflow (again) - Remote Repo](img/git-feature-branch.svg)
+[Source: Altassian BitBucket](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
 
 There's a ‘master’ branch, a ‘development’ branch, but also several <strong>feature branches</strong>.
 
@@ -398,11 +404,26 @@ then you can submit a <strong>pull request</strong> from your <strong>feature br
 In some collaborations, only some people have permission to <strong>merge pull requests</strong> to the `dev` and `master` branches.
 This makes sure that nothing gets into the shared versions of the code without it being properly reviewed and tested by others!
 
+In the feature-branch workflow, `dev` is a stable internal branch that you can merge into `master` when you're happy to share your new work with the public.
+
 > ## Exercise: Two way collaboration {.challenge}
 > Now let's put the feature-branch workflow into practise!
-> The code needs some documentation so people know what it does. Try creating a new branch coming off `dev` called `doc`, then add a new file called `README.md` containing the text “Tools to parse and convert climate data from CSV”.
-> Once you've done that, add and commit the file to your local repository, then push your changes up to GitHub. Then once they're on GitHub, create a pull request, merge your new feature branch back into your development branch, and pull the changes to `dev` back to your local repository.
+> The code needs some documentation so people know what it does. Check out `dev` and create a new branch coming off it called `doc`, then create a new file called `README.md` containing the text “Tools to parse and convert climate data from CSV”.
+> Once you've done that, add and commit the file to your local repository, then push your changes up to the `doc` branch on GitHub. Then once they're on GitHub, create a pull request, merge your new feature branch back into your development branch on your remote repository `origin`, and pull the changes to `dev` back to your local repository.
+>
+> You'll need the following commands:
+>
+> * `git branch`
+> * `git checkout`
+> * `git add`
+> * `git commit`
+> * `git push -u`
+> * `git pull`
+>
+> Make sure you consider which branch you're branching *off*, pushing *to*, merging *with* and pulling *from* and *to*.
 
 ![GitHub branches exercise](img/slides/version-control-with-git-slides-branch-exercise.jpg)
+![Workflow summary](img/slides/collab-summary-1.png)
+![Joining a collaboration](img/slides/collab-summary-2.png)
 [Next - Conflicts](06-conflict.html)
 

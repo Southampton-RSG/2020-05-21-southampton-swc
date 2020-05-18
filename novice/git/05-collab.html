@@ -72,8 +72,7 @@
 </div>
 <p>(You can also click on the ‘plus’ icon in the top-right and select <strong>New Repository</strong> too)</p>
 <p><strong>Name your repository</strong> “climate-analysis” You can optionally give it a friendly <strong>description</strong> and prove a <strong>README.md</strong> which is rendered on the front page of the web interface.</p>
-<p>GitHub will host <strong>Publicly</strong> accessible repositories <strong>free</strong> of charge, but makes a charge for Private ones. However, researchers can apply for a <a href="https://help.github.com/en/github/teaching-and-learning-with-github-education/applying-for-an-educator-or-researcher-discount">free GitHub Pro update</a> via GitHub Education, which will allow you free unlimited private repositories. <strong>BitBucket</strong> offers free private repositories for teams of up to 5.</p>
-<p>You need to be sure that you <strong>really want to make your code publicly accessible</strong>, think about <strong>licensing</strong>, and that you’re not <strong>breaching the terms of any license</strong> of shared code by making it publicly available.</p>
+<p>GitHub will host <strong>Public</strong> and <strong>Private</strong> repositories. <strong>Public repositories</strong> can be seen by anyone, though you can limit who can push to them- whilst <strong>private repositories</strong> are completely hidden, and only assigned collaborators can view them. You need to be sure that you <strong>really want to make your code publicly accessible</strong>, think about <strong>licensing</strong>, and that you’re not <strong>breaching the terms of any license</strong> of shared code by making it publicly available. For now, <strong>don’t select a license</strong>,</p>
 <p>and then click <strong>“Create Repository”</strong>:</p>
 <div class="figure">
 <img src="img/github-create-repo-02.png" alt="Creating a Repository on GitHub (Step 2)" />
@@ -116,13 +115,10 @@ To https://github.com/js-robinson/climate-analysis.git
 <p>Equally, we can’t wait until we’ve finished all our work before <strong>pushing</strong> it to GitHub either. We could lose weeks or months of work if our computer breaks!</p>
 <p>We can avoid this by using the <strong>branches</strong> we mentioned earlier.</p>
 <p>A <strong>branch</strong> is a <strong>different version</strong> of the files in your repository, that can contain its own set of <strong>commits</strong>. We can create a new branch, make changes to the code that we commit to the branch, and when we’re happy with those changes, merge them back to the main (‘master’) branch. Branches are commonly used as part of a <strong>feature-branch workflow</strong>:</p>
-<div class="figure">
-<img src="img/git-feature-branch.svg" alt="Feature-branch workflow" />
-<p class="caption">Feature-branch workflow</p>
-</div>
-<p>In this workflow, we have a main (<code>master</code>) branch which is the version of our code that’s test and reliable, and want to share- for example, the version of the code we used in a paper. When sharing code used in a paper, you can mention the specific commit that you used!</p>
+<p><img src="img/git-feature-branch.svg" alt="Feature-branch workflow" /> <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">Source: Altassian BitBucket</a></p>
+<p>We’ll start with the <strong>develop</strong> workflow though. In this, we have a main (<code>master</code>) branch which is the version of our code that’s test and reliable, and want to share- for example, the version of the code we used in a paper. When sharing code used in a paper, you can mention the specific commit that you used!</p>
 <p>Then, we have a development (<code>dev</code>) branch that we use for work-in-progress code. As we work on adding new features to the code, we commit the changes to our development branch.</p>
-<p>(We’ll talk about feature branches later!)</p>
+<p>(We’ll talk about feature-branch later!)</p>
 <h3 id="creating-branches">Creating branches</h3>
 <div class="figure">
 <img src="img/slides/branches-1.jpg" alt="Creating branches" />
@@ -142,7 +138,7 @@ To https://github.com/js-robinson/climate-analysis.git
 <h2 id="uncommitted-changes-branches"><span class="glyphicon glyphicon-pushpin"></span>Uncommitted changes &amp; branches</h2>
 </div>
 <div class="panel-body">
-<p>If we try and check out a new branch whilst we have changed but not committed** any tracked files, then we’ll get an error message! To fix this, make sure you commit your work before trying to check out a new branch. Make sure to give it a descriptive commit message for when you go back to it!</p>
+<p>If we try and check out a new branch whilst we have <strong>changed but not committed</strong> any tracked files, then we’ll get an error message! To fix this, make sure you commit your work before trying to check out a new branch. Make sure to give it a descriptive commit message for when you go back to it!</p>
 </div>
 </aside>
 <h3 id="committing-to-branches">Committing to branches</h3>
@@ -209,9 +205,13 @@ Date:   Tue Apr 28 13:17:43 2020 +0100
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">ls</span></code></pre></div>
 <pre class="output"><code>climate_analysis.py  rainfall_conversion.py  temp_conversion.py</code></pre>
 <h3 id="pushing-updating-branches">Pushing &amp; updating branches</h3>
+<div class="figure">
+<img src="img/slides/collab-dev-2.png" alt="Pushing a development branch" />
+<p class="caption">Pushing a development branch</p>
+</div>
 <p>Now we have a commit to our <code>dev</code> branch, how do we get the changes from it into our <code>master</code> branch? There’s a couple of ways of doing this, but we’re going to do it using a <strong>pull request on GitHub</strong>.</p>
 <p>First, we’ll push the contents of the <code>dev</code> branch to GitHub the same way as we pushed the <code>master</code> branch:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> push origin dev</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> push -u origin dev</code></pre></div>
 <pre class="output"><code>Counting objects: 3, done.
 Delta compression using up to 4 threads.
 Compressing objects: 100% (3/3), done.
@@ -222,7 +222,9 @@ remote: Create a pull request for &#39;dev&#39; on GitHub by visiting:
 remote:      https://github.com/smangham/climate-analysis/pull/new/dev
 remote:
 To https://github.com/smangham/climate-analysis
- * [new branch]      dev -&gt; dev</code></pre>
+ * [new branch]      dev -&gt; dev
+Branch &#39;dev&#39; set up to track remote branch &#39;dev&#39; from &#39;origin&#39;.  </code></pre>
+<p>We’ve added the <code>-u</code> flag to our <code>git push</code> this time. <code>-u</code> <strong>sets a default remote branch for the current local branch</strong>. Now, when we’re on our <strong>local dev branch</strong>, <code>git push</code> will do <code>git push origin dev</code> (and <code>git pull</code> will use <code>origin dev</code> too). This is helpful as it can prevent you accidentally pushing your local changes to the wrong branch! This <strong>only applies to your current branch</strong>, so each local branch can (and <strong>should</strong>) push to a different remote branch.</p>
 <p>Now our <code>dev</code> branch is on GitHub! Let’s go and check it out. Just above the list of files on the left-hand side is a dropdown labelled ‘branches’. Select <code>dev</code>, and you should see the list of files change:</p>
 <div class="figure">
 <img src="img/github-branches.png" alt="GitHub branches" />
@@ -278,23 +280,31 @@ Fast-forward
 <p>Now we know how to keep a seperate working copy of our code, and use it to update the version we want other people to use. But what if, whilst we’re working on adding a new feature in our development branch, someone finds a bug in our code? We don’t want to have to complete the new feature in <code>dev</code> before we can start fixing the bug!</p>
 <p>Plus, what if <strong>multiple people</strong> want to work on the code at once, each working on a new feature? If they’re all using <code>dev</code>, there’ll be plenty of <strong>merge conflicts</strong>. Plus, it makes testing the effect of the new features much harder- we only want to change one thing at a time!</p>
 <p>This is where the <strong>feature-branch workflow</strong> we mentioned comes in! Remember the figure from earlier?</p>
-<div class="figure">
-<img src="img/git-feature-branch.svg" alt="Feature-branch workflow (again) - Remote Repo" />
-<p class="caption">Feature-branch workflow (again) - Remote Repo</p>
-</div>
+<p><img src="img/git-feature-branch.svg" alt="Feature-branch workflow (again) - Remote Repo" /> <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">Source: Altassian BitBucket</a></p>
 <p>There’s a ‘master’ branch, a ‘development’ branch, but also several <strong>feature branches</strong>.</p>
 <p>When you want to make some changes to the code, like adding new features (or even fixing a complicated bug), you <strong>create a new feature branch</strong>. Then, you can work on your <strong>feature branch</strong> without worrying about conflicts or confusing others with work-in-progress files.</p>
 <p>Once you’ve finished and tested your new work, then you can submit a <strong>pull request</strong> from your <strong>feature branch</strong> back to the <strong><code>dev</code> branch</strong>.</p>
 <p>In some collaborations, only some people have permission to <strong>merge pull requests</strong> to the <code>dev</code> and <code>master</code> branches. This makes sure that nothing gets into the shared versions of the code without it being properly reviewed and tested by others!</p>
+<p>In the feature-branch workflow, <code>dev</code> is a stable internal branch that you can merge into <code>master</code> when you’re happy to share your new work with the public.</p>
 <section class="challenge panel panel-success">
 <div class="panel-heading">
 <h2 id="exercise-two-way-collaboration"><span class="glyphicon glyphicon-pencil"></span>Exercise: Two way collaboration</h2>
 </div>
 <div class="panel-body">
-<p>Now let’s put the feature-branch workflow into practise! The code needs some documentation so people know what it does. Try creating a new branch coming off <code>dev</code> called <code>doc</code>, then add a new file called <code>README.md</code> containing the text “Tools to parse and convert climate data from CSV”. Once you’ve done that, add and commit the file to your local repository, then push your changes up to GitHub. Then once they’re on GitHub, create a pull request, merge your new feature branch back into your development branch, and pull the changes to <code>dev</code> back to your local repository.</p>
+<p>Now let’s put the feature-branch workflow into practise! The code needs some documentation so people know what it does. Check out <code>dev</code> and create a new branch coming off it called <code>doc</code>, then create a new file called <code>README.md</code> containing the text “Tools to parse and convert climate data from CSV”. Once you’ve done that, add and commit the file to your local repository, then push your changes up to the <code>doc</code> branch on GitHub. Then once they’re on GitHub, create a pull request, merge your new feature branch back into your development branch on your remote repository <code>origin</code>, and pull the changes to <code>dev</code> back to your local repository.</p>
+<p>You’ll need the following commands:</p>
+<ul>
+<li><code>git branch</code></li>
+<li><code>git checkout</code></li>
+<li><code>git add</code></li>
+<li><code>git commit</code></li>
+<li><code>git push -u</code></li>
+<li><code>git pull</code></li>
+</ul>
+<p>Make sure you consider which branch you’re branching <em>off</em>, pushing <em>to</em>, merging <em>with</em> and pulling <em>from</em> and <em>to</em>.</p>
 </div>
 </section>
-<p><img src="img/slides/version-control-with-git-slides-branch-exercise.jpg" alt="GitHub branches exercise" /> <a href="06-conflict.html">Next - Conflicts</a></p>
+<p><img src="img/slides/version-control-with-git-slides-branch-exercise.jpg" alt="GitHub branches exercise" /> <img src="img/slides/collab-summary-1.png" alt="Workflow summary" /> <img src="img/slides/collab-summary-2.png" alt="Joining a collaboration" /> <a href="06-conflict.html">Next - Conflicts</a></p>
         </div>
       </div>
       </article>
